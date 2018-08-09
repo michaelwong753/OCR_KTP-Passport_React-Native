@@ -1,5 +1,5 @@
 # OCR_KTP-Passport_React-Native
-OCR Indonesian ID card (KTP) &amp; Indonesian Passport using Tesseract 4.0.0 and LSTM traineddata (front-end)
+Mobile Version of OCR Indonesian ID card (KTP) &amp; Indonesian Passport using Tesseract 4.0.0 and LSTM traineddata (front-end)
 ## Instalation
 ```
 react-native run-android
