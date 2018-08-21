@@ -10,9 +10,17 @@ import Start from './Start';
 import {Actions} from 'react-native-router-flux';
 var path;
 export default class LoginPass extends Component{
-	constructor(props) {
+constructor(props) {
 	super(props)
-	this.state = {text:''}
+	this.state = {Jenis:'',
+				  Kode_Negara: '',
+				  Nama_Lengkap: '',
+				  No_Paspor: '',
+				  Tgl_Lahir: '',
+				  Jenis_Kelamin: '',
+				  Tgl_Pengeluaran:'',
+					Tgl_Habis_Berlaku:'',
+					valid: ''}
 }
 
 	Start(){
@@ -64,15 +72,25 @@ ImagePicker.showImagePicker(options, (response) => {
 		  },
 		  body: data,
 		 };
-		fetch("http://192.168.88.26:3000/" + "upload", config)
+		fetch("http://206.189.159.245:3000/" + "upload", config)
 		 .then((checkStatusAndGetJSONResponse)=>{    
 		   return checkStatusAndGetJSONResponse.json()
 		}).then((json) => {
 			console.log(json)
-			  if(json.length <= 250 || json.length > 500 ){
-            json = 'IMAGE INVALID, PLEASE CHECK YOUR IMAGE QUALITY AND MAKE SURE IT IS A PASSPORT'
+			  if(  json.data <= 80 || json.data > 100 ){
+            this.setState({valid:'IMAGE INVALID, PLEASE CHECK YOUR IMAGE QUALITY AND MAKE SURE IT IS A PASSPORT'}) 
           }
-		  this.setState({text:json})
+          else{
+          	  this.setState({Jenis:json.Jenis,
+		  				Kode_Negara:json.Kode_Negara,
+		  				Nama_Lengkap:json.Nama_Lengkap,
+		  				No_Paspor:json.No_Paspor,
+		  				Tgl_Lahir:json.Tgl_Lahir,
+		  				Jenis_Kelamin:json.Jenis_Kelamin,
+		  				Tgl_Pengeluaran:json.Tgl_Pengeluaran,
+		  				Tgl_Habis_Berlaku:json.Tgl_Habis_Berlaku,})
+
+          }
 		 }).catch((err)=>{console.log(err)});
 
 		}
@@ -86,7 +104,15 @@ ImagePicker.showImagePicker(options, (response) => {
 			<View style = {styles.background}> 
 				<View style = {styles.logoContainer}>
 					 <Text style= {styles.title}>This is your text :</Text>
-					 <Text style = {styles.titleex}>{this.state.text}</Text>
+					 <Text style = {styles.titleex}>Jenis: {this.state.Jenis}</Text>
+					 <Text style = {styles.titleex}>Kode Negara: {this.state.Kode_Negara}</Text>
+					 <Text style = {styles.titleex}>Nama Lengkap: {this.state.Nama_Lengkap}</Text>
+					 <Text style = {styles.titleex}>No Paspor: {this.state.No_Paspor}</Text>
+					 <Text style = {styles.titleex}>Tanggal Lahir: {this.state.Tgl_Lahir}</Text>
+					 <Text style = {styles.titleex}>Jenis Kelamin: {this.state.Jenis_Kelamin}</Text>
+					 <Text style = {styles.titleex}>Tanggal Pengeluaran: {this.state.Tgl_Pengeluaran}</Text>
+					 <Text style = {styles.titleex}>Tanggal Habis Berlaku: {this.state.Tgl_Habis_Berlaku}</Text>
+					  <Text style = {styles.titleexx}> {this.state.valid}</Text>
 					 <Text style= {styles.title}>This is your picture :</Text>
 					 <Image style = {styles.logoex} source={{uri: "file://" + path}} />                                                                 
 					<Text style={styles.title}>OCR Again? </Text>
@@ -115,6 +141,20 @@ const styles = StyleSheet.create( {
 			fontSize: 15,
 			color : 'white'
 
+		},
+			titleex: {
+			color: 'white',
+			marginTop: 2,
+			width: 300,
+			fontSize: 15,
+			textAlign: 'center'
+		},
+		titleexx: {
+			color: 'red',
+			marginTop: 2,
+			width: 300,
+			fontSize: 15,
+			textAlign: 'center'
 		},
 		signUptext: {
 			color : 'white',

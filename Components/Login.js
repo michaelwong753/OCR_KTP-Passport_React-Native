@@ -12,7 +12,23 @@ var path;
 export default class Login extends Component{
 constructor(props) {
 	super(props)
-	this.state = {text:''}
+	this.state = {Provinsi:'',
+				  Kota: '',
+				  NIK: '',
+				  Nama: '',
+				  Tempat_Tgl_Lahir: '',
+				  Jenis_Kelamin: '',
+				  Golongan_Darah:'',
+					Alamat:'',
+					RT_RW: '',
+					Kel_Desa: '',
+					Kecamatan: '',
+					Agama: '',
+					Status_Perkawinan:'',
+					Pekerjaan: '',
+					Kewarganegaraan: '',
+					valid: '',
+					Berlaku_Hingga:''}
 }
 		Start(){
 			Actions.Start();
@@ -64,15 +80,31 @@ ImagePicker.showImagePicker(options, (response) => {
 		  },
 		  body: data,
 		 };
-		fetch("http://192.168.88.26:3000/" + "upload", config)
+		fetch("http://206.189.159.245:3000/" + "upload", config)
 		 .then((checkStatusAndGetJSONResponse)=>{    
 		   return checkStatusAndGetJSONResponse.json()
 		}).then((json) => {
 			console.log(json)
-			  if(json.length <= 300 || json.length > 450 ){
-            json = 'IMAGE INVALID, PLEASE CHECK YOUR IMAGE QUALITY AND MAKE SURE IT IS A KTP'
-          }
-		  this.setState({text:json})
+			if( json.data <= 200 || json.data >= 400 )
+				this.setState({valid:'IMAGE INVALID, PLEASE CHECK YOUR IMAGE QUALITY AND MAKE SURE IT IS A KTP'})
+			else{
+		  this.setState({Provinsi:json.Provinsi,
+		  				Kota:json.Kota,
+		  				NIK:json.NIK,
+		  				Nama:json.Nama,
+		  				Tempat_Tgl_Lahir:json.Tempat_Tgl_Lahir,
+		  				Jenis_Kelamin:json.Jenis_Kelamin,
+		  				Golongan_Darah:json.Golongan_Darah,
+		  				Alamat:json.Alamat,
+		  				RT_RW:json.RT_RW,
+		  				Kel_Desa:json.Kel_Desa,
+		  				Kecamatan:json.Kecamatan,
+		  				Agama:json.Agama,
+		  				Status_Perkawinan:json.Status_Perkawinan,
+		  				Pekerjaan:json.Pekerjaan,
+		  				Kewarganegaraan:json.Kewarganegaraan,
+		  				Berlaku_Hingga:json.Berlaku_Hingga })
+			}
 		 }).catch((err)=>{console.log(err)});
 
 		}
@@ -86,7 +118,19 @@ ImagePicker.showImagePicker(options, (response) => {
 			<View style = {styles.background}> 
 				<View style = {styles.logoContainer}>
 					 <Text style= {styles.title}>This is your text :</Text>
-					 <Text style = {styles.titleex}>{this.state.text}</Text>
+					 <Text style = {styles.titleex}>Provinsi: {this.state.Provinsi}</Text>
+					 <Text style = {styles.titleex}>Kota: {this.state.Kota}</Text>
+					 <Text style = {styles.titleex}>NIK: {this.state.NIK}</Text>
+					 <Text style = {styles.titleex}>Nama: {this.state.Nama}</Text>
+					 <Text style = {styles.titleex}>Tempat_Tgl_Lahir: {this.state.Tempat_Tgl_Lahir}</Text>
+					 <Text style = {styles.titleex}>Jenis_Kelamin: {this.state.Jenis_Kelamin}</Text>
+					 <Text style = {styles.titleex}>Golongan_Darah: {this.state.Golongan_Darah}</Text>
+					 <Text style = {styles.titleex}>Alamat: {this.state.Alamat}</Text>
+					 <Text style = {styles.titleex}>Status_Perkawinan: {this.state.Status_Perkawinan}</Text>
+					 <Text style = {styles.titleex}>Pekerjaan: {this.state.Pekerjaan}</Text>
+					 <Text style = {styles.titleex}>Kewarganegaraan: {this.state.Kewarganegaraan}</Text>
+					 <Text style = {styles.titleex}>Berlaku_Hingga: {this.state.Berlaku_Hingga}</Text>
+					  <Text style = {styles.titleexx}> {this.state.valid}</Text>
 					 <Text style= {styles.title}>This is your picture :</Text>
 					 <Image style = {styles.logoex} source={{uri: "file://" + path}} />                                                                 
 						<Text style={styles.title}>OCR Again? </Text>
@@ -165,7 +209,14 @@ const styles = StyleSheet.create( {
 		},
 		titleex: {
 			color: 'white',
-			marginTop: 10,
+			marginTop: 2,
+			width: 300,
+			fontSize: 15,
+			textAlign: 'center'
+		},
+		titleexx: {
+			color: 'red',
+			marginTop: 2,
 			width: 300,
 			fontSize: 15,
 			textAlign: 'center'
